@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse of the Day</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        #verse-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+        }
+        #verse {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        #reference {
+            font-size: 1em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div id="verse-container">
+        <div id="verse">Loading...</div>
+        <div id="reference"></div>
+    </div>
+    <script>
+        async function fetchVerse() {
+            try {
+                const response = await fetch('https://beta.ourmanna.com/api/v1/get/?format=json');
+                const data = await response.json();
+                const verse = data.verse.details.text;
+                const reference = data.verse.details.reference;
+                document.getElementById('verse').textContent = verse;
+                document.getElementById('reference').textContent = reference;
+            } catch (error) {
+                document.getElementById('verse').textContent = 'Could not load verse.';
+                document.getElementById('reference').textContent = '';
+            }
+        }
+        fetchVerse();
+    </script>
+</body>
+</html>
